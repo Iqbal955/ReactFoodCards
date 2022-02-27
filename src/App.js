@@ -1,14 +1,16 @@
 import React from "react";
-import FoodList from "./FoodList";
-import Food from "./Food";
+import PetList from "./components/PetList";
+import UpdatePet from "./components/UpdatePet";
+import Pet from "./components/Pet";
 import { Routes, Route, Link } from "react-router-dom";
 
 function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<FoodList />}></Route>
-        <Route path="/:id" element={<Food />}></Route>
+        <Route path="/" element={<PetList />}></Route>
+        <Route path="/:id" element={<Pet />}></Route>
+        <Route path="/:id/edit" element={<UpdatePet />}></Route>
       </Routes>
     </div>
   );
@@ -30,7 +32,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <Foodlist />
+        <Petlist />
       </div>
     );
   }
@@ -38,7 +40,7 @@ export class App extends Component {
 export default App; /* 
 
 
-const FoodCard = (props) => {
+const PetCard = (props) => {
   return (
     <div>
       <img src={props.img} alt={props.img} />
@@ -49,7 +51,7 @@ const FoodCard = (props) => {
   );
 };
 
-const Foodlist = () => {
+const Petlist = () => {
   const data = [
     {
       íd: 1,
@@ -60,20 +62,20 @@ const Foodlist = () => {
 
   return (
     <>
-      {data.map((food) => (
-        <FoodCard {...food} />
+      {data.map((Pet) => (
+        <PetCard {...Pet} />
       ))}
     </>
   );
 };
 
-const Food = (props) => {
+const Pet = (props) => {
   return (
     <div>
       <div>Title</div>
       <img src={props.img} alt={props.img} />
       <div>{props.Description}</div>
-      <button onClick={() => navigate("food")}>MoreInfo</button>
+      <button onClick={() => navigate("Pet")}>MoreInfo</button>
     </div>
   );
 }; */

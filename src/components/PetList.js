@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Food from "./Food.js";
+import Pet from "./Pet.js";
 import { Grid } from "@mui/material";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   useParams,
   useNavigate,
 } from "react-router-dom";
 
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { ClassNames } from "@emotion/react";
-import { Box } from "@mui/system";
+
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
@@ -27,14 +23,14 @@ const useStyles = makeStyles({
   },
 });
 
-function FoodList() {
+function PetList() {
   let { id } = useParams();
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const classes = useStyles();
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/photos?albumId=1")
+    fetch("https://pet-store-api.herokuapp.com/api/v1/pets/?format=json")
       .then((response) => response.json())
       .then((data) => {
         setData(data);
@@ -51,19 +47,25 @@ function FoodList() {
       justifyContent="center"
       alignItems="center"
     >
-      {data.map((FoodData) => {
+      {data.map((PetData) => {
         return (
           <Grid item className={classes.root}>
             <Card sx={{ maxWidth: 150 }}>
-              <CardMedia component="img" image={FoodData.thumbnailUrl} />
+              <CardMedia
+                component="img"
+                image="https://images.unsplash.com/photo-1611003228941-98852ba62227?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YmFieSUyMGRvZ3xlbnwwfHwwfHw%3D&w=1000&q=80"
+              />
               <Typography variant="body2" color="text.secondary">
-                {FoodData.title}
+                {PetData.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                - {PetData.animal_type}
               </Typography>
               <CardActions />
               <Button
                 size="small"
                 onClick={() => {
-                  navigate(`/${FoodData.id}`, { state: { data: FoodData } });
+                  navigate(`/${PetData.id}`, { state: { data: PetData } });
                 }}
               >
                 Learn More
@@ -76,4 +78,4 @@ function FoodList() {
   );
 }
 
-export default FoodList;
+export default PetList;
