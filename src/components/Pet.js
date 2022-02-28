@@ -1,10 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Button, Grid } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    heigth: 200,
   },
   paper: {
     padding: theme.spacing(2),
@@ -44,7 +41,7 @@ function Pet() {
       justify="center"
       justifyContent="center"
       alignItems="center"
-      style={{ minHeight: "100vh" }}
+      style={{ marginTop: "100px", maxHeight: "100vh" }}
       spacing={4}
       xs={12}
       md={12}
@@ -54,7 +51,11 @@ function Pet() {
         <img src="https://images.unsplash.com/photo-1611003228941-98852ba62227?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YmFieSUyMGRvZ3xlbnwwfHwwfHw%3D&w=1000&q=80" />
       </Grid>
       <Grid item>
-        <Typography>{data.name}</Typography>
+        <h2>Details</h2>
+        <Typography>Name: {data.name}</Typography>
+        <Typography>Age: {data.age}</Typography>
+        <Typography>Breed: {data.animal_type}</Typography>
+        <Typography>Color: {data.color}</Typography>
         <Button
           onClick={() => {
             navigate(`/${data.id}/edit`, { state: { data: data } });

@@ -1,23 +1,28 @@
 import React, { Component, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
-import { BrowserRouter as Router, useNavigate } from "react-router-dom";
-
-function UpdatePet({ setData }) {
+function CreatePet({ setData }) {
   const location = useLocation();
   const { data } = location.state;
 
   const [pet, setPet] = useState(data);
+
+  const navigate = useNavigate();
+
+  function getRandomInt() {
+    return Math.floor(Math.random() * Math.floor(100));
+  }
 
   function handleChange(e) {
     // e is the event
     const newdata = { ...pet };
     newdata[e.target.id] = e.target.value;
     setPet(newdata);
-    console.log(pet);
   }
 
   console.log(pet.id);
@@ -25,10 +30,12 @@ function UpdatePet({ setData }) {
   function submit(e) {
     e.preventDefault();
     axios
-      .put(`http://localhost:3006/pets/${pet.id}`, {
+      .post(`http://localhost:3006/pets`, {
+        id: getRandomInt(),
         name: pet.name,
         age: pet.type,
         animal_type: pet.animal_type,
+        color: pet.color,
       })
       .then((res) => {
         setData((prevData) => {
@@ -37,6 +44,10 @@ function UpdatePet({ setData }) {
           return newData;
         });
       })
+      .then(() => {
+        alert("Pet Created!");
+      })
+
       .catch((err) => {
         console.log(err);
       });
@@ -56,9 +67,8 @@ function UpdatePet({ setData }) {
       lg={12}
     >
       <Grid item>
-        <Typography>{pet.name}</Typography>
+        <Typography>New pet</Typography>
         <form>
-          <label>Pet info</label>
           <input
             onChange={(e) => handleChange(e)}
             placeholder="name"
@@ -77,6 +87,13 @@ function UpdatePet({ setData }) {
             id="animal_type"
             value={pet.animal_type}
           />
+
+          <input
+            onChange={(e) => handleChange(e)}
+            placeholder="color"
+            id="color"
+            value={pet.color}
+          />
         </form>
         <button onClick={(e) => submit(e)} type="submit">
           Submit
@@ -86,4 +103,4 @@ function UpdatePet({ setData }) {
   );
 }
 
-export default UpdatePet;
+export default CreatePet;

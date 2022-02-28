@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Pet from "./Pet.js";
 import { Grid } from "@mui/material";
 import {
   BrowserRouter as Router,
@@ -13,7 +11,6 @@ import CardActions from "@mui/material/CardActions";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
@@ -23,19 +20,10 @@ const useStyles = makeStyles({
   },
 });
 
-function PetList() {
+function PetList({ data }) {
   let { id } = useParams();
-  const [data, setData] = useState([]);
   const navigate = useNavigate();
   const classes = useStyles();
-
-  useEffect(() => {
-    fetch("https://pet-store-api.herokuapp.com/api/v1/pets/?format=json")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-      });
-  }, []);
 
   return (
     <Grid
@@ -74,6 +62,19 @@ function PetList() {
           </Grid>
         );
       })}
+      <Grid item>
+        <Button
+          variant="contained"
+          color="success"
+          align="center"
+          onClick={() => {
+            navigate(`/create`, { state: { data: data } });
+          }}
+        >
+          {" "}
+          Add{" "}
+        </Button>
+      </Grid>
     </Grid>
   );
 }

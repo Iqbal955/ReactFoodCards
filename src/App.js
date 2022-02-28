@@ -3,14 +3,36 @@ import PetList from "./components/PetList";
 import UpdatePet from "./components/UpdatePet";
 import Pet from "./components/Pet";
 import { Routes, Route, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import CreatePet from "./components/CreatePet";
+import NavBar from "./utils/NavBar";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3006/pets")
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+      });
+  }, []);
+
   return (
     <div>
+      <NavBar />
       <Routes>
-        <Route path="/" element={<PetList />}></Route>
+        <Route path="/" element={<PetList data={data} />}></Route>
         <Route path="/:id" element={<Pet />}></Route>
-        <Route path="/:id/edit" element={<UpdatePet />}></Route>
+        <Route
+          path="/:id/edit"
+          element={<UpdatePet data={data} setData={setData} />}
+        ></Route>
+        <Route
+          path="/create"
+          element={<CreatePet data={data} setData={setData} />}
+        ></Route>
       </Routes>
     </div>
   );
